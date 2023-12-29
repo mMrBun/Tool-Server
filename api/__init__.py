@@ -1,0 +1,1 @@
+from .patient.patient_information import get_patient_info
