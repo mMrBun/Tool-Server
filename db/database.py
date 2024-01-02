@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-from conf.pyconfig.configRead import configRead
+from conf.pyconfig.config_read import configRead
 
 # 配置信息
 database_config = configRead.get_config("database.yaml")
