@@ -2,8 +2,12 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
+from conf.pyconfig.configRead import configRead
+
 # 配置信息
-SQLALCHEMY_DATABASE_URL = "mysql://root:toolserver#7788@openwrt.mrbun.cn:9965/test"
+database_config = configRead.get_config("database.yaml")
+assert database_config, "未加载到数据库配置"
+SQLALCHEMY_DATABASE_URL = f"{database_config['database']['DB_TYPE']}://{database_config['database']['USER']}:{database_config['database']['PASSWORD']}@{database_config['database']['HOST']}:{database_config['database']['PORT']}/{database_config['database']['DATABASE']}"
 # SQLALCHEMY_DATABASE_URL = "postgresql://user:password@postgresserver/db"
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL,
