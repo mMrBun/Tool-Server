@@ -1,6 +1,7 @@
 fastapi
 pydantic
 sqlalchemy
-jwt
+PyJWT==2.8.0
 uvicorn
-pyyaml
+PyYAML==6.0.1
+mysqlclient==2.2.1
