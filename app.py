@@ -22,13 +22,13 @@ def create_app():
 
 
 def mount_app_routes(_app: FastAPI):
-    from api import get_patient_info
+    from api import get_medication_history
     # Tag: register apis
-    _app.post("/api/get_patient_info",
-              tags=["获取患者基本信息"],
-              response_model=BaseResponse,
-              summary="get_patient_info",
-              )(get_patient_info)
+    _app.get("/api/get_medication_history/{patientId}",
+             tags=["获取患者药品记录"],
+             response_model=BaseResponse,
+             summary="获取患者药品记录",
+             )(get_medication_history)
 
 
 def run_api(host, port, **kwargs):

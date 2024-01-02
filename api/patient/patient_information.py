@@ -1,6 +1,6 @@
 from typing import List
 
-from fastapi import UploadFile, File, Form
+from fastapi import UploadFile, File, Form, Body
 
 from utils import BaseResponse
 
@@ -30,3 +30,15 @@ def upload_docs(
     )
 
     return BaseResponse(code=200, msg="文件上传与向量化完成", data={"failed_files": "xxx"})
+
+
+def get_medication_history(
+        patientId: int
+) -> BaseResponse:
+    """
+    根据患者ID查询药品记录
+    patientId: 患者ID
+    return:药品记录
+    """
+    print(patientId)
+    return BaseResponse(code=200, msg="success", data=patientId)
