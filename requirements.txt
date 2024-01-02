@@ -3,3 +3,4 @@ pydantic
 sqlalchemy
 jwt
 uvicorn
+pyyaml
