@@ -1,7 +1,10 @@
 from typing import List
 
-from fastapi import UploadFile, File, Form
+from fastapi import UploadFile, File, Form, Depends
+from sqlalchemy.orm import Session
 
+from db.curd.users import get_users
+from db.database import get_db
 from utils import BaseResponse
 
 
@@ -30,3 +33,11 @@ def upload_docs(
     )
 
     return BaseResponse(code=200, msg="文件上传与向量化完成", data={"failed_files": "xxx"})
+
+
+def db_query(db: Session = Depends(get_db)) -> BaseResponse:
+    """
+        API接口： 数据库查询
+    """
+    objs = get_users(db)
+    return BaseResponse(code=200, msg="查询数据库成功", data=[{"id": obj.id, "name": obj.name} for obj in objs])
