@@ -22,13 +22,6 @@ def create_app():
 
 
 def mount_app_routes(_app: FastAPI):
-    # from api import get_patient_info
-    # Tag: register apis
-    # _app.post("/api/get_patient_info",
-    #           tags=["获取患者基本信息"],
-    #           response_model=BaseResponse,
-    #           summary="get_patient_info",
-    #           )(get_patient_info)
     from api.patient.patient_information import db_query
     _app.get("/api/db_query",
              tags=["查询数据库"],
