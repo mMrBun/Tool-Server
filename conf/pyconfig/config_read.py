@@ -1,7 +1,9 @@
 import os
 import yaml.constructor
+
+base_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # 配置目录
-conf_module = "conf\\config"
+conf_module = os.path.join(base_path, "config")
 
 
 class ConfigRead:
