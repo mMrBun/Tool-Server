@@ -2,6 +2,8 @@ import argparse
 import uvicorn
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
+
+from db.schemas.general_employment_inspection_schema import GeneralEmploymentInspectionSchema
 from utils import BaseResponse, TokenResponse
 
 
@@ -22,13 +24,13 @@ def create_app():
 
 
 def mount_app_routes(_app: FastAPI):
-    from api.patient.patient_information import db_query
+    from api.patient.patient_information import get_employment_inspection
     from api.auth.auth_controller import login, hello
-    _app.get("/api/db_query",
+    _app.get("/api/get_employment_inspection",
              tags=["查询数据库"],
              response_model=BaseResponse,
              summary="get_db",
-             )(db_query)
+             )(get_employment_inspection)
     _app.post("/api/login",
               tags=["用户登录"],
               response_model=TokenResponse,
