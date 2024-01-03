@@ -1,6 +1,8 @@
 from datetime import datetime, timedelta
 from typing import Union
 import jwt
+from fastapi import Depends, HTTPException
+from fastapi.security import OAuth2PasswordBearer
 
 SECRET_KEY = "tool-server"
 ALGORITHM = "HS256"
@@ -34,3 +36,23 @@ def decode_token(token: str) -> Union[dict, None]:
     except jwt.InvalidTokenError:
         # Invalid token
         return None
+
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/login")
+
+
+def verify_token(token: str = Depends(oauth2_scheme)):
+    credentials_exception = HTTPException(
+        status_code=401,
+        detail="Invalid credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+
+    try:
+        payload = decode_token(token)
+        username: str = payload.get("username")
+        if username is None:
+            raise credentials_exception
+    except EOFError:
+        raise credentials_exception
+    return payload
