@@ -5,3 +5,8 @@ PyJWT==2.8.0
 uvicorn
 PyYAML==6.0.1
 mysqlclient==2.2.1
+werkzeug
+jose
+passlib
+bcrypt
+python-multipart
