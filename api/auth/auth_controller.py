@@ -1,23 +1,26 @@
-from utils import BaseResponse, create_token
-from fastapi import Form
+from fastapi import Depends
+from fastapi.security import OAuth2PasswordRequestForm
+
+from utils import TokenResponse, BaseResponse, create_token
+from utils.token import verify_token
 
 
 def login(
-        username: str = Form(..., description="用户名"),
-        password: str = Form(..., description="密码")
-) -> BaseResponse:
-    """
-    user login logic.
-    :param username:
-    :param password:
-    :return: JWT token string.
-    """
-    print(username,password)
+        form_data: OAuth2PasswordRequestForm = Depends()
+) -> TokenResponse:
+    print(form_data.username, form_data.password)
     # TODO: 校验用户名和密码
 
     # 创建token
     token = create_token({"username": "用户"})
-
-    response = BaseResponse()
-    response.data = token
+    response = TokenResponse()
+    response.access_token = token
     return response
+
+
+def hello(current_user: dict = Depends(verify_token)):
+    """
+    测试token鉴权
+    """
+    print(current_user)
+    return BaseResponse(code=200, msg="success", data="hello")
