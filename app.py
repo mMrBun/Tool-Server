@@ -23,11 +23,17 @@ def create_app():
 
 def mount_app_routes(_app: FastAPI):
     from api.patient.patient_information import db_query
+    from api.auth.auth_controller import login
     _app.get("/api/db_query",
              tags=["查询数据库"],
              response_model=BaseResponse,
              summary="get_db",
              )(db_query)
+    _app.post("/api/login",
+              tags=["用户登录"],
+              response_model=BaseResponse,
+              summary="login",
+              )(login)
 
 
 def run_api(host, port, **kwargs):
