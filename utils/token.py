@@ -3,6 +3,7 @@ from typing import Union
 import jwt
 from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
+from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 
 from db.curd.patients_dao import query_patients_by_username
@@ -43,6 +44,8 @@ def decode_token(token: str) -> Union[dict, None]:
 
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/login")
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 def verify_token(token: str = Depends(oauth2_scheme), db: Session = Depends(db.database.get_db)):

@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from db.curd.patients_dao import query_patients_by_username
 from db.database import get_db
 from utils import BaseResponse, create_token
-from utils.token import verify_token
+from utils.token import verify_token, verify_password
 
 
 def login(
@@ -17,7 +17,7 @@ def login(
     password = form_data.password
     patient = query_patients_by_username(db, username)
 
-    if patient is None or not query_patients_by_username(password, patient.password):
+    if patient is None or not verify_password(password, patient.password):
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
     # 创建token
