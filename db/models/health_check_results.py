@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String
 from db.database import Base
 
 
-class Patient(Base):
+class HealthCheckResults(Base):
     __tablename__ = "health_check_results"
 
     id = Column(Integer, primary_key=True, index=True)
