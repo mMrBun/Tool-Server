@@ -51,7 +51,7 @@ def mount_app_routes(_app: FastAPI):
              summary="health_records"
              )(get_latest_health_check_record)
     _app.post("/api/register",
-              tags=["查询体检记录"],
+              tags=["用户注册"],
               response_model=BaseResponse,
               summary="register"
               )(register)
