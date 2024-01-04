@@ -5,7 +5,10 @@ from pydantic_core.core_schema import SerializationInfo
 
 class PatientsSchema(BaseModel):
     id: int
-    name: str
+    username: str
+    password: str
+    nickname: str
+    age: int
     date_of_birth: date
     gender: str
     address: str

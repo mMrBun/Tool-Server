@@ -6,7 +6,10 @@ class Patients(Base):
     __tablename__ = "patients"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String)
+    username = Column(String)
+    password = Column(String)
+    nickname = Column(String)
+    age = Column(Integer)
     date_of_birth = Column(Date)
     gender = Column(String)
     address = Column(String)
