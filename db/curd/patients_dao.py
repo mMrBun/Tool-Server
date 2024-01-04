@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+
 from db.models.patients import Patients
 
 """
@@ -26,3 +27,13 @@ def query_patients_info_by_id(db: Session, patient_id: int) -> Patients:
     :return:
     """
     return db.query(Patients).filter(Patients.id == patient_id).first()
+
+
+def query_patients_by_username(db: Session, username: str) -> Patients:
+    """
+    Query Patients based on username
+    :param db:
+    :param username:
+    :return:
+    """
+    return db.query(Patients).filter(Patients.username == username).first()
