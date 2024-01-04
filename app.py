@@ -2,7 +2,7 @@ import argparse
 import uvicorn
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
-from utils import BaseResponse
+from utils import BaseResponse, TokenResponse
 
 
 def create_app():
@@ -37,7 +37,7 @@ def mount_app_routes(_app: FastAPI):
     #           summary="get_patient_info",
     #           )(get_patient_info)
     from api.patient.patient_information import db_query
-    from api.auth.auth_controller import login
+    from api.auth.auth_controller import login, hello
     _app.get("/api/db_query",
              tags=["查询数据库"],
              response_model=BaseResponse,
@@ -45,9 +45,12 @@ def mount_app_routes(_app: FastAPI):
              )(db_query)
     _app.post("/api/login",
               tags=["用户登录"],
-              response_model=BaseResponse,
+              response_model=TokenResponse,
               summary="login",
               )(login)
+    _app.get("/hello",
+             response_model=BaseResponse,
+             summary="hello")(hello)
 
 
 def run_api(host, port, **kwargs):

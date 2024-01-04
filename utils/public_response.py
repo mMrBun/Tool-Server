@@ -15,3 +15,8 @@ class BaseResponse(BaseModel):
                 "msg": "success",
             }
         }
+
+
+class TokenResponse(BaseModel):
+    access_token: str = pydantic.Field(None,description="token str")
+    token_type: str = pydantic.Field("bearer",description="token type")
