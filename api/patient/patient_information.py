@@ -1,5 +1,5 @@
 from typing import List
-from fastapi import UploadFile, File, Form, Depends
+from fastapi import UploadFile, File, Form, Depends, Body
 from sqlalchemy.orm import Session
 from db.curd.users import get_users, add_user
 from db.curd.medication_dao import query_medication_info
@@ -97,7 +97,7 @@ def get_blood_pressureHistory(patientId: int, start_time: str = None, end_time: 
 
 def register(
         db: Session = Depends(get_db),
-        patient: PatientsSchema = Form(..., description="患者信息")
+        patient: PatientsSchema = Body(..., description="患者信息")
 ):
     if add_user(db, patient):
         return BaseResponse(code=200, msg="success", data=[])

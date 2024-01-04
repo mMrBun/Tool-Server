@@ -3,7 +3,6 @@ import uvicorn
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
-
 from utils import BaseResponse, TokenResponse
 
 
@@ -55,11 +54,11 @@ def mount_app_routes(_app: FastAPI):
              response_model=BaseResponse,
              summary="health_records"
              )(get_health_check_records)
-    _app.get("/api/register",
-             tags=["查询体检记录"],
-             response_model=BaseResponse,
-             summary="register"
-             )(register)
+    _app.post("/api/register",
+              tags=["查询体检记录"],
+              response_model=BaseResponse,
+              summary="register"
+              )(register)
 
 
 def run_api(host, port, **kwargs):
