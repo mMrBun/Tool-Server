@@ -3,6 +3,7 @@ from typing import Union
 import jwt
 from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
+from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 
 from db.curd.sys_user_dao import find_sys_user_by_username
@@ -44,6 +45,8 @@ def decode_token(token: str) -> Union[dict, None]:
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/login")
 
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
 
 def verify_token(token: str = Depends(oauth2_scheme), db: Session = Depends(db.database.get_db)):
     credentials_exception = HTTPException(
@@ -57,8 +60,14 @@ def verify_token(token: str = Depends(oauth2_scheme), db: Session = Depends(db.d
         username: str = payload.get("sub")
         if username is None:
             raise credentials_exception
-        sys_user = find_sys_user_by_username(db, username)
-        payload.update({"sys_user": sys_user})
+        patient = find_sys_user_by_username(db, username)
+        payload.update({"patient": patient})
     except EOFError:
         raise credentials_exception
     return payload
+
+
+# 验证密码
+def verify_password(plain_password, hashed_password):
+    result = pwd_context.verify(plain_password, hashed_password)
+    return result

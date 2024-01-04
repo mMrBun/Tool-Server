@@ -25,6 +25,7 @@ def mount_app_routes(_app: FastAPI):
     from api import get_medication_history, get_blood_pressureHistory
     from api.patient.patient_information import db_query
     from api.auth.auth_controller import login
+    from api import get_health_check_records
     # Tag: register apis
     _app.get("/api/get_medication_history/{patientId}",
              tags=["获取患者药品记录"],
@@ -47,6 +48,11 @@ def mount_app_routes(_app: FastAPI):
               response_model=BaseResponse,
               summary="login",
               )(login)
+    _app.get("/api/health_records",
+             tags=["查询体检记录"],
+             response_model=BaseResponse,
+             summary="health_records"
+             )(get_health_check_records)
 
 
 def run_api(host, port, **kwargs):
