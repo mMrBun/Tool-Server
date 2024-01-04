@@ -1,11 +1,14 @@
 from typing import List
-
 from fastapi import UploadFile, File, Form, Depends
 from sqlalchemy.orm import Session
-
-from db.curd.users import get_users
+from db.curd.users import get_users, add_user
+from db.curd.medication_dao import query_medication_info
+from db.curd.patients_medication_records_dao import query_records
+from db.curd.blood_pressur_pecords_dao import query_blood_all_records, query_blood_records
 from db.database import get_db
 from utils import BaseResponse
+from utils.token import verify_token
+from datetime import date, datetime
 
 
 def upload_docs(
@@ -35,9 +38,57 @@ def upload_docs(
     return BaseResponse(code=200, msg="文件上传与向量化完成", data={"failed_files": "xxx"})
 
 
+def get_medication_history(patientId: int, db: Session = Depends(get_db),
+                           current_user: dict = Depends(verify_token)) -> BaseResponse:
+    """
+    根据患者ID查询药品记录
+    :param patientId:患者ID
+    :param current_user:鉴权
+    :param db:
+    """
+    records = query_records(db, patientId)
+    if len(records) != 0:
+        data = [
+            {"create_time": r.create_time,
+             "medication":
+                 {"name": query_medication_info(db, r.medication_id).medication_name,
+                  "dosage": query_medication_info(db, r.medication_id).dosage,
+                  "frequency": query_medication_info(db, r.medication_id).frequency
+                  }
+             }
+            for r in records]
+        return BaseResponse(code=200, msg="查询成功", data=data)
+    else:
+        return BaseResponse(code=200, msg="查询成功", data="暂无开药记录")
+
+
 def db_query(db: Session = Depends(get_db)) -> BaseResponse:
     """
         API接口： 数据库查询
     """
     objs = get_users(db)
-    return BaseResponse(code=200, msg="查询数据库成功", data=[{"id": obj.id, "name": obj.name} for obj in objs])
+    return BaseResponse(code=200, msg="查询数据库成功",
+                        data=[{"id": obj.id, "name": obj.name, "age": obj.age} for obj in objs])
+
+
+def get_blood_pressureHistory(patientId: int, start_time: str = None, end_time: str = None,
+                              db: Session = Depends(get_db)):
+    """
+    查询历史血压记录
+    :param end_time:
+    :param start_time:
+    :param patientId:
+    :param db:
+    :return:
+    """
+    
+    records = query_blood_records(db, patientId, start_time, end_time)
+    if len(records) != 0:
+        data = [
+            {"measure_time": r.create_time,
+             "systolic_pressure": r.systolic_pressure,
+             "diastolic_pressure": r.diastolic_pressure,
+             }
+            for r in records]
+        return BaseResponse(code=200, msg="查询成功", data=data)
+    return BaseResponse(code=200, msg="查询成功", data="近期并未测量血压。")
