@@ -14,7 +14,6 @@ def query_blood_all_records(db: Session):
     """
     根据查询过往的所有血压值数据
     :param db:
-    :param patient_id:
     :return:
     """
     return db.query(BloodPressureRecords).all()
