@@ -1,7 +1,7 @@
 database:
   DB_TYPE: mysql
-  USER: USER
-  PASSWORD: PASSWORD
-  HOST: HOST
-  PORT: PORT
-  DATABASE: DATABASE
+  USER: root
+  PASSWORD: toolserver#7788
+  HOST: openwrt.mrbun.cn
+  PORT: 9965
+  DATABASE: test

@@ -1,2 +1,1 @@
-from .patient.patient_information import get_medication_history
-# from .patient.patient_information import get_patient_info
+from .patient.patient_information import get_medication_history,get_blood_pressureHistory
