@@ -12,9 +12,12 @@ def login(
         form_data: OAuth2PasswordRequestForm = Depends(),
         db: Session = Depends(get_db)
 ) -> TokenResponse:
-    print(form_data.username, form_data.password)
-    # TODO: 校验用户名和密码
-
+    """
+    User login
+    :param form_data: OAuth2PasswordRequestForm Object
+    :param db:  DB Session
+    :return:
+    """
     username = form_data.username
     password = form_data.password
     sys_user = find_sys_user_by_username(db, username)
@@ -22,7 +25,7 @@ def login(
     if sys_user is None or sys_user.password != password:
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
-    # 创建token
+    # create token
     token = create_token({"sub": username})
     response = TokenResponse()
     response.access_token = token
@@ -31,7 +34,7 @@ def login(
 
 def hello(current_user: dict = Depends(verify_token)):
     """
-    测试token鉴权
+    Test token Authentication
     """
 
     sys_user = current_user.get("sys_user")
