@@ -3,8 +3,6 @@ import uvicorn
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
-from db.schemas.general_employment_inspection_schema import GeneralEmploymentInspectionSchema
-from utils import BaseResponse, TokenResponse
 from utils import BaseResponse
 from utils.log import setup_logging
 
@@ -31,7 +29,7 @@ def mount_app_routes(_app: FastAPI):
     from api import get_latest_health_check_record
     from api.patient.blood_pressure_records import get_blood_pressureHistory
     from api.patient.medication_records import get_medication_history
-    from api.patient.patient_information import get_employment_inspection
+    from api.patient.employment_inspection import employment_inspection
     from api.auth.auth_controller import register
     # Tag: register apis
     _app.get("/api/get_medication_history/{patientId}",
@@ -41,14 +39,14 @@ def mount_app_routes(_app: FastAPI):
              )(get_medication_history)
     _app.get("/api/get_blood_pressure_history",
              tags=["查询历史血压记录"],
-
-    _app.get("/api/get_employment_inspection",
-             tags=["查询数据库"],
              response_model=BaseResponse,
              summary="get_medication_history",
              )(get_blood_pressureHistory)
-             summary="get_db",
-             )(get_employment_inspection)
+    _app.get("/api/employment_inspection",
+             tags=["体检预约查询"],
+             response_model=BaseResponse,
+             summary="employment_inspection",
+             )(employment_inspection),
     _app.post("/api/login",
               tags=["用户登录"],
               response_model=BaseResponse,
