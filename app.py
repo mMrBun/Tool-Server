@@ -22,8 +22,21 @@ def create_app():
 
 
 def mount_app_routes(_app: FastAPI):
+    from api import get_medication_history, get_blood_pressureHistory
     from api.patient.patient_information import db_query
-    from api.auth.auth_controller import login, hello
+    from api.auth.auth_controller import login
+    # Tag: register apis
+    _app.get("/api/get_medication_history/{patientId}",
+             tags=["获取患者药品记录"],
+             response_model=BaseResponse,
+             summary="获取患者药品记录",
+             )(get_medication_history)
+    _app.get("/api/get_blood_pressure_history",
+             tags=["查询历史血压记录"],
+             response_model=BaseResponse,
+             summary="get_medication_history",
+             )(get_blood_pressureHistory)
+
     _app.get("/api/db_query",
              tags=["查询数据库"],
              response_model=BaseResponse,
@@ -31,12 +44,9 @@ def mount_app_routes(_app: FastAPI):
              )(db_query)
     _app.post("/api/login",
               tags=["用户登录"],
-              response_model=TokenResponse,
+              response_model=BaseResponse,
               summary="login",
               )(login)
-    _app.get("/hello",
-             response_model=BaseResponse,
-             summary="hello")(hello)
 
 
 def run_api(host, port, **kwargs):
