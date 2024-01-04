@@ -1,11 +1,12 @@
-from sqlalchemy import Column, Integer, String, Date, ForeignKey, BIGINT
+from sqlalchemy import Column, String, Date, BIGINT
+
 from db.database import Base
 
 
 class Vaccination(Base):
     __tablename__ = 'vaccination'
 
-    vaccination_id = Column(BIGINT, primary_key=True, index=True)
+    id = Column(BIGINT, primary_key=True, index=True)
     patient_id = Column(BIGINT)
     vaccine_name = Column(String(50))
     vaccination_date = Column(Date)

@@ -2,6 +2,7 @@ import argparse
 import uvicorn
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
+
 from utils import BaseResponse
 from utils.log import setup_logging
 
@@ -29,6 +30,7 @@ def mount_app_routes(_app: FastAPI):
     from api.patient.blood_pressure_records import get_blood_pressureHistory
     from api.patient.medication_records import get_medication_history
     from api.auth.auth_controller import register
+    from api.patient.vaccination_controller import get_vaccination_record
     # Tag: register apis
     _app.get("/api/get_medication_history/{patientId}",
              tags=["获取患者药品记录"],
@@ -55,6 +57,12 @@ def mount_app_routes(_app: FastAPI):
               response_model=BaseResponse,
               summary="register"
               )(register)
+
+    _app.get("/api/get_vaccination_record",
+             tags=["查询疫苗接种记录"],
+             response_model=BaseResponse,
+             summary="get_vaccination_record",
+             )(get_vaccination_record)
 
 
 def run_api(host, port, **kwargs):
