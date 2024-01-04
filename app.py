@@ -25,7 +25,7 @@ def create_app():
 
 def mount_app_routes(_app: FastAPI):
     from api.auth.auth_controller import login
-    from api import get_latest_health_check_records
+    from api import get_latest_health_check_record
     from api.patient.blood_pressure_records import get_blood_pressureHistory
     from api.patient.medication_records import get_medication_history
     from api.auth.auth_controller import register
@@ -49,7 +49,7 @@ def mount_app_routes(_app: FastAPI):
              tags=["查询体检记录"],
              response_model=BaseResponse,
              summary="health_records"
-             )(get_latest_health_check_records)
+             )(get_latest_health_check_record)
     _app.post("/api/register",
               tags=["查询体检记录"],
               response_model=BaseResponse,
