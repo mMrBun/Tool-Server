@@ -2,7 +2,7 @@ from sqlalchemy import Column, BIGINT, VARCHAR, Integer
 from db.database import Base
 
 
-class sys_user(Base):
+class SysUser(Base):
     __tablename__ = "sys_user"
 
     id = Column(BIGINT, primary_key=True, index=True)

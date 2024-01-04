@@ -1,1 +1,2 @@
-# from .patient.patient_information import get_patient_info
+
+from .patient.health_check_records import get_latest_health_check_record

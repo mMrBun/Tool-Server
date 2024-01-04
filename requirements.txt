@@ -10,3 +10,4 @@ jose
 passlib
 bcrypt
 python-multipart
+colorlog

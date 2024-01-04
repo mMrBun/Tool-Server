@@ -5,6 +5,8 @@ from starlette.middleware.cors import CORSMiddleware
 
 from db.schemas.general_employment_inspection_schema import GeneralEmploymentInspectionSchema
 from utils import BaseResponse, TokenResponse
+from utils import BaseResponse
+from utils.log import setup_logging
 
 
 def create_app():
@@ -19,26 +21,49 @@ def create_app():
         allow_methods=["*"],
         allow_headers=["*"],
     )
+    setup_logging()
     mount_app_routes(_app)
     return _app
 
 
 def mount_app_routes(_app: FastAPI):
+    from api.auth.auth_controller import login
+    from api import get_latest_health_check_record
+    from api.patient.blood_pressure_records import get_blood_pressureHistory
+    from api.patient.medication_records import get_medication_history
     from api.patient.patient_information import get_employment_inspection
-    from api.auth.auth_controller import login, hello
+    from api.auth.auth_controller import register
+    # Tag: register apis
+    _app.get("/api/get_medication_history/{patientId}",
+             tags=["获取患者药品记录"],
+             response_model=BaseResponse,
+             summary="获取患者药品记录",
+             )(get_medication_history)
+    _app.get("/api/get_blood_pressure_history",
+             tags=["查询历史血压记录"],
+
     _app.get("/api/get_employment_inspection",
              tags=["查询数据库"],
              response_model=BaseResponse,
+             summary="get_medication_history",
+             )(get_blood_pressureHistory)
              summary="get_db",
              )(get_employment_inspection)
     _app.post("/api/login",
               tags=["用户登录"],
-              response_model=TokenResponse,
+              response_model=BaseResponse,
               summary="login",
               )(login)
-    _app.get("/hello",
+    _app.get("/api/health_records",
+             tags=["查询体检记录"],
              response_model=BaseResponse,
-             summary="hello")(hello)
+             summary="health_records"
+             )(get_latest_health_check_record)
+    _app.post("/api/register",
+              tags=["查询体检记录"],
+              response_model=BaseResponse,
+              summary="register"
+              )(register)
 
 
 def run_api(host, port, **kwargs):
