@@ -11,4 +11,4 @@ class BloodPressureRecordsSchema(BaseModel):
     create_time: datetime
 
     class Config:
-        orm_mode: True
+        orm_mode = True

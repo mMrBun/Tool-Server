@@ -1,6 +1,5 @@
 from datetime import date
 from pydantic import BaseModel
-from pydantic_core.core_schema import SerializationInfo
 
 
 class PatientsSchema(BaseModel):
@@ -14,13 +13,4 @@ class PatientsSchema(BaseModel):
     phone_number: str
 
     class Config:
-        orm_mode: True
-
-    # @model_serializer
-    # def ser_model(self, info: SerializationInfo):
-    #     return {'id': f' {self.id}',
-    #             'name': f'{self.name}',
-    #             'date': f'{self.date_of_birth}',
-    #             'gender': f'{self.gender}',
-    #             'address': f'{self.address}',
-    #             'phone_number': f'{self.phone_number}'}
+        orm_mode = True

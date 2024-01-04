@@ -10,4 +10,4 @@ class PatientsMedicationRecordsSchema(BaseModel):
     create_time: date
 
     class Config:
-        orm_mode: True
+        orm_mode = True
