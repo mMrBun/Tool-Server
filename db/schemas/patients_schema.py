@@ -1,5 +1,5 @@
 from datetime import date
-from pydantic import BaseModel, model_serializer
+from pydantic import BaseModel
 from pydantic_core.core_schema import SerializationInfo
 
 
