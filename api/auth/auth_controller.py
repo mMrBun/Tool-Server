@@ -11,7 +11,7 @@ from utils.token import verify_token, verify_password
 def login(
         form_data: OAuth2PasswordRequestForm = Depends(),
         db: Session = Depends(get_db)
-) -> TokenResponse:
+) -> BaseResponse:
 
     username = form_data.username
     password = form_data.password
@@ -22,9 +22,8 @@ def login(
 
     # 创建token
     token = create_token({"sub": username})
-    response = TokenResponse()
-    response.access_token = token
-    return response
+
+    return BaseResponse(code=200, msg="success", data=token)
 
 
 def hello(current_user: dict = Depends(verify_token)):
