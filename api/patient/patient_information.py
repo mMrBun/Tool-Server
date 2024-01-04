@@ -95,7 +95,7 @@ def get_blood_pressureHistory(patientId: int, start_time: str = None, end_time: 
     return BaseResponse(code=200, msg="查询成功", data="近期并未测量血压。")
 
 
-def sign_in(
+def register(
         db: Session = Depends(get_db),
         patient: PatientsSchema = Form(..., description="患者信息")
 ):
