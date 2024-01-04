@@ -71,3 +71,8 @@ def verify_token(token: str = Depends(oauth2_scheme), db: Session = Depends(db.d
 def verify_password(plain_password, hashed_password):
     result = pwd_context.verify(plain_password, hashed_password)
     return result
+
+
+def hash_password(plain_password):
+    return pwd_context.hash(plain_password)
+

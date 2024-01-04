@@ -6,9 +6,10 @@ from db.curd.medication_dao import query_medication_info
 from db.curd.patients_medication_records_dao import query_records
 from db.curd.blood_pressur_pecords_dao import query_blood_all_records, query_blood_records
 from db.database import get_db
+from db.schemas.patients_schema import PatientsSchema
 from utils import BaseResponse
+from utils.error_code import ErrorCode
 from utils.token import verify_token
-from datetime import date, datetime
 
 
 def upload_docs(
@@ -81,7 +82,7 @@ def get_blood_pressureHistory(patientId: int, start_time: str = None, end_time: 
     :param db:
     :return:
     """
-    
+
     records = query_blood_records(db, patientId, start_time, end_time)
     if len(records) != 0:
         data = [
@@ -92,3 +93,13 @@ def get_blood_pressureHistory(patientId: int, start_time: str = None, end_time: 
             for r in records]
         return BaseResponse(code=200, msg="查询成功", data=data)
     return BaseResponse(code=200, msg="查询成功", data="近期并未测量血压。")
+
+
+def sign_in(
+        db: Session = Depends(get_db),
+        patient: PatientsSchema = Form(..., description="患者信息")
+):
+    if add_user(db, patient):
+        return BaseResponse(code=200, msg="success", data=[])
+    else:
+        return BaseResponse(code=ErrorCode.INSERT_ERROR.code, msg=ErrorCode.INSERT_ERROR.msg, data=[])
