@@ -3,6 +3,7 @@ import uvicorn
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 from utils import BaseResponse
+from utils.log import setup_logging
 
 
 def create_app():
@@ -17,13 +18,14 @@ def create_app():
         allow_methods=["*"],
         allow_headers=["*"],
     )
+    setup_logging()
     mount_app_routes(_app)
     return _app
 
 
 def mount_app_routes(_app: FastAPI):
     from api.auth.auth_controller import login
-    from api import get_health_check_records
+    from api import get_latest_health_check_records
     from api.patient.blood_pressure_records import get_blood_pressureHistory
     from api.patient.medication_records import get_medication_history
     from api.auth.auth_controller import register
@@ -47,7 +49,7 @@ def mount_app_routes(_app: FastAPI):
              tags=["查询体检记录"],
              response_model=BaseResponse,
              summary="health_records"
-             )(get_health_check_records)
+             )(get_latest_health_check_records)
     _app.post("/api/register",
               tags=["查询体检记录"],
               response_model=BaseResponse,
