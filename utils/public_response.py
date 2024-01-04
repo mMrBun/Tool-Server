@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, List
 import pydantic
 from pydantic import BaseModel
 
@@ -18,5 +18,5 @@ class BaseResponse(BaseModel):
 
 
 class TokenResponse(BaseModel):
-    access_token: str = pydantic.Field(None,description="token str")
-    token_type: str = pydantic.Field("bearer",description="token type")
+    access_token: str = pydantic.Field(None, description="token str")
+    token_type: str = pydantic.Field("bearer", description="token type")
