@@ -9,4 +9,3 @@ class Medication(Base):
     medication_name = Column(String)
     dosage = Column(String)
     frequency = Column(String)
-    is_delete = Column(Integer)
