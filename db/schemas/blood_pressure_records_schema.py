@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 
 from pydantic import BaseModel
 
@@ -8,7 +8,7 @@ class BloodPressureRecordsSchema(BaseModel):
     patient_id: int
     systolic_pressure: int
     diastolic_pressure: int
-    create_time: datetime
+    create_time: date
 
     class Config:
         orm_mode = True

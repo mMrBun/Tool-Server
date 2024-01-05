@@ -33,7 +33,7 @@ def mount_app_routes(_app: FastAPI):
     from api.auth.auth_controller import register
     from api.patient.vaccination_controller import get_vaccination_record
     # Tag: register apis
-    _app.get("/api/get_medication_history/{patientId}",
+    _app.get("/api/get_medication_history",
              tags=["获取患者药品记录"],
              response_model=BaseResponse,
              summary="获取患者药品记录",

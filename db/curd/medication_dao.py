@@ -12,8 +12,5 @@ limit: int = 100
 def query_medication_info(db: Session, medication_id: int):
     """
     根据药品信息
-    :param db:
-    :param patient_id:
-    :return:
     """
     return db.query(Medication).filter(Medication.id == medication_id).first()
