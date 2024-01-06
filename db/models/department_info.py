@@ -13,3 +13,4 @@ class DepartmentInfoModel(Base):
     clinic_start_hours = Column(String)
     clinic_end_hours = Column(String)
     patient_guide = Column(Text)
+    corresponding_symptom = Column(String)

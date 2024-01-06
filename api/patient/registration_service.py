@@ -1,7 +1,5 @@
 import threading
-import time
-
-from db.curd.department_info_dao import query_department_info
+from db.curd.department_info_dao import query_department_info, query_department_by_symptom
 from utils.decorator import *
 from fastapi import Depends
 from sqlalchemy.orm import Session
@@ -54,3 +52,13 @@ def patients_registration(name: str, current_user: dict = Depends(verify_token),
         department_info = DepartmentInfoSchema.from_orm(info)
         data = {"number:": registration_number, "patient_name": patient.nickname, "department_info": department_info}
         return BaseResponse(data=data)
+
+
+@print_args
+def department_consultation(symptom: str, db: Session = Depends(get_db)) -> BaseResponse:
+    """
+        相关症状对应相关科室
+    """
+    department_names = query_department_by_symptom(db, symptom)
+
+    return BaseResponse(data=[department[0] for department in department_names])
