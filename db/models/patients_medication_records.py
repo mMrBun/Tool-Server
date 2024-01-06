@@ -2,7 +2,7 @@ from db.database import Base
 from sqlalchemy import Column, Integer, DATETIME
 
 
-class PatientsMedicationRecords(Base):
+class PatientsMedicationRecordsModel(Base):
     __tablename__ = "patients_medication_records"
 
     id = Column(Integer, primary_key=True, index=True)
