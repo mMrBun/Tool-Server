@@ -1,7 +1,5 @@
 from sqlalchemy.orm import Session
-from db.models.patients_medication_records import PatientsMedicationRecords
-
-
+from db.models.patients_medication_records import PatientsMedicationRecordsModel
 
 
 def query_records(db: Session, patient_id: int):
@@ -11,5 +9,5 @@ def query_records(db: Session, patient_id: int):
     :param patient_id:
     :return:
     """
-    return db.query(PatientsMedicationRecords).filter(patient_id == PatientsMedicationRecords.patients_id).all()
-
+    return db.query(PatientsMedicationRecordsModel).filter(
+        patient_id == PatientsMedicationRecordsModel.patients_id).all()
