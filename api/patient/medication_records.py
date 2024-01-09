@@ -27,3 +27,23 @@ def get_medication_history(db: Session = Depends(get_db),
         return BaseResponse(code=200, msg="查询成功", data=data)
     else:
         return BaseResponse(code=200, msg="查询成功", data="暂无开药记录")
+
+
+@print_args
+@verify_user_effective
+def get_medication_effects(medication_id: int,
+                           db: Session = Depends(get_db),
+                           current_user: dict = Depends(verify_token)) -> BaseResponse:
+    """
+    根据药品ID查询药品信息
+    """
+    medication_info = query_medication_info(db, medication_id)
+    if medication_info is None:
+        return BaseResponse(code=200, msg="查询成功", data="暂无药品信息")
+    else:
+        data = {
+            "medication_name": medication_info.medication_name,
+            "role": medication_info.role,
+            "taboo": medication_info.taboo_information
+        }
+        return BaseResponse(code=200, msg="查询成功", data=data)

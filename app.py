@@ -28,11 +28,11 @@ def mount_app_routes(_app: FastAPI):
     from api.auth.auth_controller import login
     from api import get_latest_health_check_record
     from api.patient.blood_pressure_records import get_blood_pressureHistory
-    from api.patient.medication_records import get_medication_history
+    from api.patient.medication_records import get_medication_history, get_medication_effects
     from api.patient.employment_inspection import employment_inspection
     from api.auth.auth_controller import register
     from api.patient.vaccination_controller import get_vaccination_record
-    from api.patient.registration_service import get_department_info_by_name,patients_registration
+    from api.patient.department_service import get_department_info_by_name, patients_registration
     # Tag: register apis
     _app.get("/api/get_medication_history",
              tags=["获取患者药品记录"],
@@ -64,7 +64,6 @@ def mount_app_routes(_app: FastAPI):
               response_model=BaseResponse,
               summary="register"
               )(register)
-
     _app.get("/api/get_vaccination_record",
              tags=["查询疫苗接种记录"],
              response_model=BaseResponse,
@@ -80,6 +79,11 @@ def mount_app_routes(_app: FastAPI):
              response_model=BaseResponse,
              summary="patients_registration"
              )(patients_registration)
+    _app.get("/api/get_medication_info/{medication_id}",
+             tags=["获取药品作用和禁忌"],
+             response_model=BaseResponse,
+             summary="get_medication_effects"
+             )(get_medication_effects)
 
 
 def run_api(host, port, **kwargs):

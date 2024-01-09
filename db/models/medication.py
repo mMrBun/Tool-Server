@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Date
+from sqlalchemy import Column, Integer, String, Date, text
 from db.database import Base
 
 
@@ -9,3 +9,5 @@ class Medication(Base):
     medication_name = Column(String)
     dosage = Column(String)
     frequency = Column(String)
+    role = Column(String)
+    taboo_information = Column(String)
