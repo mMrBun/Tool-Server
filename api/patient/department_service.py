@@ -54,3 +54,5 @@ def patients_registration(name: str, current_user: dict = Depends(verify_token),
         department_info = DepartmentInfoSchema.from_orm(info)
         data = {"number:": registration_number, "patient_name": patient.nickname, "department_info": department_info}
         return BaseResponse(data=data)
+
+
